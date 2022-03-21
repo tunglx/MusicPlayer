@@ -14,4 +14,17 @@ class SongViewModel(
     fun getSongs() {
         playlistData.value = getSongsUseCase.getSongs()
     }
+
+    fun getSongByPath(path: String?): Song? {
+        playlistData.value?.let {
+            path?.let { path ->
+                for (song in it) {
+                    if (song.path == path) {
+                        return song
+                    }
+                }
+            }
+        }
+        return null
+    }
 }

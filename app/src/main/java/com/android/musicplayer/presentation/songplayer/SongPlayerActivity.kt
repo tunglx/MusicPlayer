@@ -1,42 +1,51 @@
 package com.android.musicplayer.presentation.songplayer
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.SeekBar
+import androidx.annotation.NonNull
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import coil.load
 import coil.request.CachePolicy
 import com.android.musicplayer.R
 import com.android.musicplayer.data.model.Song
+import com.android.musicplayer.presentation.playlist.PlaylistActivity
+import com.android.musicplayer.presentation.playlist.SongViewModel
 import com.android.player.BaseSongPlayerActivity
 import com.android.player.model.ASong
 import com.android.player.util.OnSwipeTouchListener
+import com.android.player.util.PreferencesHelper
 import com.android.player.util.formatTimeInMillisToString
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_song_player.*
+import kotlinx.android.synthetic.main.content_main.*
+import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
 
 class SongPlayerActivity : BaseSongPlayerActivity() {
 
+    private val songViewModel: SongViewModel by viewModel()
+    private val pref: PreferencesHelper by inject()
+
     private var mSong: Song? = null
     private var mSongList: MutableList<ASong>? = null
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        intent?.extras?.apply {
-            if (containsKey(SONG_LIST_KEY)) {
-                mSongList = getParcelableArrayList(SONG_LIST_KEY)
-            }
+    private fun playSong(song: Song, songList: List<Song>) {
+        mSongList = songList.toMutableList()
+        mSong = song
 
-            if (containsKey(ASong::class.java.name)) {
-                mSong = getParcelable<ASong>(ASong::class.java.name) as Song
-                mSong?.let {
-                    mSongList?.let { it1 -> play(it1, it) }
-                    loadInitialData(it)
-                }
+        mSongList?.let {
+            mSong?.let { it1 ->
+                play(it, it1)
+                loadInitialData(it1)
             }
         }
-
     }
 
 
@@ -44,7 +53,12 @@ class SongPlayerActivity : BaseSongPlayerActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_song_player)
 
-        onNewIntent(intent)
+        getSongs()
+        songViewModel.playlistData.observe(this) {
+            songViewModel.getSongByPath(pref.latestPlayedSongPath)?.let { lastPlayedSong ->
+                playSong(lastPlayedSong, it)
+            }
+        }
 
         with(songPlayerViewModel) {
 
@@ -142,6 +156,48 @@ class SongPlayerActivity : BaseSongPlayerActivity() {
         aSong.clipArt?.let {
             song_player_image_view.load(File(it)) {
                 CachePolicy.ENABLED
+            }
+        }
+    }
+
+    private fun getSongs() {
+        if (isReadPhoneStatePermissionGranted()) {
+            songViewModel.getSongs()
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                    PlaylistActivity.REQUEST_PERMISSION_READ_EXTERNAL_STORAGE_CODE
+                )
+            }
+        }
+    }
+
+    private fun isReadPhoneStatePermissionGranted(): Boolean {
+        val firstPermissionResult = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
+        return firstPermissionResult == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        @NonNull permissions: Array<String>,
+        @NonNull grantResults: IntArray
+    ) {
+        when (requestCode) {
+            PlaylistActivity.REQUEST_PERMISSION_READ_EXTERNAL_STORAGE_CODE -> if (grantResults.isNotEmpty()) {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {// Permission Granted
+                    songViewModel.getSongs()
+                } else {
+                    // Permission Denied
+                    Snackbar.make(
+                        playlist_recycler_view,
+                        getString(R.string.you_denied_permission),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }
