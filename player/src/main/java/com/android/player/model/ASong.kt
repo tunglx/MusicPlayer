@@ -3,7 +3,7 @@ package com.android.player.model
 import android.os.Parcelable
 
 abstract class ASong(
-    var songId: Int = 0,
+    var songId: Long = 0,
     var title: String? = "",
     var clipArt: String? = "",
     var artist: String? = "",

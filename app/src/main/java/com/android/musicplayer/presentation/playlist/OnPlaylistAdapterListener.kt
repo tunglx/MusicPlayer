@@ -9,8 +9,5 @@ import com.android.musicplayer.data.model.Song
  * @author ZARA
  * */
 interface OnPlaylistAdapterListener {
-
     fun playSong(song: Song, songs: ArrayList<Song>)
-
-    fun removeSongItem(song: Song)
 }

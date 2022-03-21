@@ -18,7 +18,6 @@ import java.io.File
 
 class SongPlayerActivity : BaseSongPlayerActivity() {
 
-
     private var mSong: Song? = null
     private var mSongList: MutableList<ASong>? = null
 
@@ -53,34 +52,35 @@ class SongPlayerActivity : BaseSongPlayerActivity() {
                 song_player_progress_seek_bar.max = it
             })
 
-            songPositionTextData.observe(this@SongPlayerActivity,
-                Observer { t -> song_player_passed_time_text_view.text = t })
+            songPositionTextData.observe(
+                this@SongPlayerActivity
+            ) { t -> song_player_passed_time_text_view.text = t }
 
-            songPositionData.observe(this@SongPlayerActivity, {
+            songPositionData.observe(this@SongPlayerActivity) {
                 song_player_progress_seek_bar.progress = it
-            })
+            }
 
-            isRepeatData.observe(this@SongPlayerActivity, {
+            isRepeatData.observe(this@SongPlayerActivity) {
                 song_player_repeat_image_view.setImageResource(
                     if (it) R.drawable.ic_repeat_one_color_primary_vector
                     else R.drawable.ic_repeat_one_black_vector
                 )
-            })
+            }
 
-            isShuffleData.observe(this@SongPlayerActivity, {
+            isShuffleData.observe(this@SongPlayerActivity) {
                 song_player_shuffle_image_view.setImageResource(
                     if (it) R.drawable.ic_shuffle_color_primary_vector
                     else R.drawable.ic_shuffle_black_vector
                 )
-            })
+            }
 
-            isPlayData.observe(this@SongPlayerActivity, {
+            isPlayData.observe(this@SongPlayerActivity) {
                 song_player_toggle_image_view.setImageResource(if (it) R.drawable.ic_pause_vector else R.drawable.ic_play_vector)
-            })
+            }
 
-            playerData.observe(this@SongPlayerActivity, {
+            playerData.observe(this@SongPlayerActivity) {
                 loadInitialData(it)
-            })
+            }
         }
 
         song_player_container.setOnTouchListener(object :

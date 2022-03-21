@@ -71,11 +71,6 @@ internal class PlaylistAdapter(val mListener: OnPlaylistAdapterListener) :
                 }
             }
 
-            itemView.setOnLongClickListener {
-                mListener.removeSongItem(song)
-                true
-            }
-
             itemView.setOnClickListener {
                 mListener.playSong(song, songs as ArrayList<Song>)
             }
