@@ -5,6 +5,7 @@ import com.android.musicplayer.data.repository.PlaylistRepositoryImp
 import com.android.musicplayer.domain.repository.PlaylistRepository
 import com.android.musicplayer.domain.usecase.GetSongsUseCase
 import com.android.musicplayer.presentation.playlist.SongViewModel
+import com.android.player.util.PreferencesHelper
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -15,6 +16,8 @@ val AppModule = module {
     single { createGetSongsUseCase(get()) }
 
     single { createPlaylistRepository(get()) }
+
+    single { PreferencesHelper(get()) }
 }
 
 fun createGetSongsUseCase(

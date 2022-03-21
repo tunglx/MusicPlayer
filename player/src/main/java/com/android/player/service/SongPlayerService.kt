@@ -12,6 +12,7 @@ import com.android.player.media.OnMediaAdapterCallback
 import com.android.player.exo.ExoPlayerManager
 import com.android.player.model.ASong
 import com.android.player.notification.MediaNotificationManager
+import com.android.player.util.PreferencesHelper
 import java.util.*
 
 
@@ -67,6 +68,8 @@ class SongPlayerService : Service(), OnMediaAdapterCallback {
 
     override fun onSongChanged(song : ASong) {
         mCallback?.updateSongData(song)
+        // Save last played song
+        PreferencesHelper(this).latestPlayedSongPath = song.source
     }
 
     override fun onShuffle(isShuffle: Boolean) {

@@ -1,30 +1,29 @@
 package com.android.musicplayer.presentation.playlist
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import androidx.annotation.NonNull
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.android.musicplayer.R
 import com.android.musicplayer.data.model.Song
 import com.android.musicplayer.presentation.songplayer.SongPlayerActivity
 import com.android.player.BaseSongPlayerActivity
+import com.android.player.util.PreferencesHelper
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_playlist.*
 import kotlinx.android.synthetic.main.content_main.*
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class PlaylistActivity : BaseSongPlayerActivity(), OnPlaylistAdapterListener {
 
     private var adapter: PlaylistAdapter? = null
     private val viewModel: SongViewModel by viewModel()
+    private val pref: PreferencesHelper by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +36,8 @@ class PlaylistActivity : BaseSongPlayerActivity(), OnPlaylistAdapterListener {
         viewModel.playlistData.observe(this, Observer {
             adapter?.songs = it
         })
+
+        Log.i("tung", "last played song: ${pref.latestPlayedSongPath}")
     }
 
     override fun onStart() {
