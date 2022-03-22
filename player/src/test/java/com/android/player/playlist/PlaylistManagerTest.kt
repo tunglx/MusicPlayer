@@ -1,6 +1,8 @@
 package com.android.player.playlist
 
-import com.android.player.model.ASong
+import com.xplora.player.model.ASong
+import com.xplora.player.playlist.Playlist
+import com.xplora.player.playlist.PlaylistManager
 import org.junit.Before
 import org.junit.Test
 

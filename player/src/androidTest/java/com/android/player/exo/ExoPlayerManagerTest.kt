@@ -5,8 +5,10 @@ import android.os.Parcelable
 import androidx.test.annotation.UiThreadTest
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.android.player.model.ASong
+import com.xplora.player.model.ASong
 import com.google.android.exoplayer2.C
+import com.xplora.player.exo.ExoPlayerManager
+import com.xplora.player.exo.PlaybackState
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Before

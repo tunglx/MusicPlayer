@@ -1,4 +1,4 @@
-package com.android.musicplayer
+package com.xplora.musicplayer
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4

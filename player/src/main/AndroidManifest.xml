@@ -6,9 +6,9 @@
 
     <application android:label="@string/app_name">
 
-        <activity android:name=".BaseSongPlayerActivity" />
+        <activity android:name="com.xplora.player.BaseSongPlayerActivity" />
 
-        <service android:name=".service.SongPlayerService" />
+        <service android:name="com.xplora.player.service.SongPlayerService" />
 
     </application>
 

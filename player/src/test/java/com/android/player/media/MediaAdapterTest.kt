@@ -1,9 +1,11 @@
 package com.android.player.media
 
-import com.android.player.exo.OnExoPlayerManagerCallback
-import com.android.player.exo.PlaybackState
-import com.android.player.model.ASong
-import com.android.player.playlist.PlaylistManager
+import com.xplora.player.exo.OnExoPlayerManagerCallback
+import com.xplora.player.exo.PlaybackState
+import com.xplora.player.model.ASong
+import com.xplora.player.playlist.PlaylistManager
+import com.xplora.player.media.MediaAdapter
+import com.xplora.player.media.OnMediaAdapterCallback
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test

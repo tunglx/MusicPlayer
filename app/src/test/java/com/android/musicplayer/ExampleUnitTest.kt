@@ -1,4 +1,4 @@
-package com.android.musicplayer
+package com.xplora.musicplayer
 
 import org.junit.Test
 

@@ -5,7 +5,8 @@ import android.content.Intent
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ServiceTestRule
-import com.android.player.service.SongPlayerService
+import com.xplora.player.service.SongPlayerService
+import com.xplora.player.notification.MediaNotificationManager
 import org.junit.Before
 import org.junit.Test
 

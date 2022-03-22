@@ -1,7 +1,8 @@
 package com.android.player.playlist
 
 
-import com.android.player.model.ASong
+import com.xplora.player.model.ASong
+import com.xplora.player.playlist.Playlist
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before

@@ -1,4 +1,4 @@
-package com.android.musicplayer.di
+package com.xplora.musicplayer.di
 
 import org.junit.Test
 import org.koin.core.logger.Level

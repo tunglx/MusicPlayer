@@ -8,7 +8,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ServiceTestRule
-import com.android.player.service.SongPlayerService.LocalBinder
+import com.xplora.player.service.SongPlayerService
+import com.xplora.player.service.SongPlayerService.LocalBinder
 import org.hamcrest.CoreMatchers.`is`
 import org.junit.Before
 import org.junit.Rule
