@@ -140,7 +140,7 @@ class SongPlayerActivity : BaseSongPlayerActivity() {
         }
 
         btn_song_list.setOnClickListener {
-            PlaylistActivity.start(this, mSongList as ArrayList<ASong>?)
+            PlaylistActivity.start(this, songViewModel.playlistData.value as ArrayList<Song>?)
         }
     }
 

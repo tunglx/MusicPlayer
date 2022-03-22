@@ -2,11 +2,6 @@ package com.android.player.service
 
 import com.android.player.model.ASong
 
-/**
- * To make an interaction between [SongPlayerService] & [BaseSongPlayerActivity]
- *
- * @author ZARA
- * */
 interface OnPlayerServiceCallback {
 
     fun updateSongData(song: ASong)

@@ -24,12 +24,6 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 
-/**
- * This class is responsible for managing the player(actions, state, ...) using [ExoPlayer]
- *
- *
- * @author ZARA
- * */
 class ExoPlayerManager(val context: Context) : OnExoPlayerManagerCallback {
 
     private var mWifiLock: WifiManager.WifiLock? = null

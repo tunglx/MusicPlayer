@@ -3,13 +3,6 @@ package com.android.player.exo
 import com.android.player.model.ASong
 import java.util.ArrayList
 
-/**
- * To make an interaction between [ExoPlayerManager] & [MediaController]
- *
- * and to return result from [ExoPlayerManager]
- *
- * @author Zara
- * */
 interface OnExoPlayerManagerCallback {
 
     fun getCurrentStreamPosition(): Long

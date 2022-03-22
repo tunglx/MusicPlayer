@@ -5,12 +5,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.max
 
-/**
- * This class is used to manage the playlist
- * (normal list, onShuffle list, repetition, ...)
- *
- * @author ZARA
- **/
 class PlaylistManager(private val mListener: OnSongUpdateListener) {
 
     private var playlist: Playlist? = null

@@ -20,11 +20,6 @@ import com.android.player.model.ASong
 import com.android.player.service.SongPlayerService
 import java.io.File
 
-/**
- * This class is responsible for managing Notification
- *
- * @author ZARA
- * */
 class MediaNotificationManager @Throws(RemoteException::class)
 constructor(private val mService: SongPlayerService) : BroadcastReceiver() {
 

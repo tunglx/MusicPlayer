@@ -7,12 +7,6 @@ import com.android.player.playlist.PlaylistManager
 import com.android.player.playlist.Playlist
 import java.util.*
 
-
-/**
- * This class is used to interact with [ExoPlayerManager] & [PlaylistManager]
- *
- * @author ZARA
- * */
 class MediaAdapter(
     private val onExoPlayerManagerCallback: OnExoPlayerManagerCallback,
     private val mediaAdapterCallback: OnMediaAdapterCallback
