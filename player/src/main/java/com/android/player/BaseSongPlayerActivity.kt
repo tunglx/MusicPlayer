@@ -20,8 +20,8 @@ open class BaseSongPlayerActivity : AppCompatActivity(), OnPlayerServiceCallback
 
     private var mService: SongPlayerService? = null
     private var mBound = false
-    private var mSong: ASong? = null
-    private var mSongList: MutableList<ASong>? = null
+    protected var mSong: ASong? = null
+    protected var mSongList: MutableList<ASong>? = null
     private var msg = 0
     val songPlayerViewModel: SongPlayerViewModel = getPlayerViewModelInstance()
 

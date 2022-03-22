@@ -69,7 +69,7 @@ class SongPlayerService : Service(), OnMediaAdapterCallback {
     override fun onSongChanged(song : ASong) {
         mCallback?.updateSongData(song)
         // Save last played song
-        PreferencesHelper(this).latestPlayedSongPath = song.source
+        PreferencesHelper(this).latestPlayedSongId = song.songId
     }
 
     override fun onShuffle(isShuffle: Boolean) {

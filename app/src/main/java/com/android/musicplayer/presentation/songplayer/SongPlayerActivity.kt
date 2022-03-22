@@ -1,12 +1,11 @@
 package com.android.musicplayer.presentation.songplayer
 
 import android.Manifest
-import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -21,9 +20,7 @@ import com.android.player.model.ASong
 import com.android.player.util.OnSwipeTouchListener
 import com.android.player.util.PreferencesHelper
 import com.android.player.util.formatTimeInMillisToString
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_song_player.*
-import kotlinx.android.synthetic.main.content_main.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
@@ -33,10 +30,7 @@ class SongPlayerActivity : BaseSongPlayerActivity() {
     private val songViewModel: SongViewModel by viewModel()
     private val pref: PreferencesHelper by inject()
 
-    private var mSong: Song? = null
-    private var mSongList: MutableList<ASong>? = null
-
-    private fun playSong(song: Song, songList: List<Song>) {
+    private fun initSong(song: Song, songList: List<Song>) {
         mSongList = songList.toMutableList()
         mSong = song
 
@@ -55,9 +49,9 @@ class SongPlayerActivity : BaseSongPlayerActivity() {
 
         getSongs()
         songViewModel.playlistData.observe(this) {
-            songViewModel.getSongByPath(pref.latestPlayedSongPath)?.let { lastPlayedSong ->
-                playSong(lastPlayedSong, it)
-            }
+            songViewModel.getSongById(pref.latestPlayedSongId)?.let { lastPlayedSong ->
+                initSong(lastPlayedSong, it)
+            } ?: initSong(it[0], it)
         }
 
         with(songPlayerViewModel) {
@@ -144,6 +138,10 @@ class SongPlayerActivity : BaseSongPlayerActivity() {
         song_player_repeat_image_view.setOnClickListener {
             repeat()
         }
+
+        btn_song_list.setOnClickListener {
+            PlaylistActivity.start(this, mSongList as ArrayList<ASong>?)
+        }
     }
 
     private fun loadInitialData(aSong: ASong) {
@@ -167,7 +165,7 @@ class SongPlayerActivity : BaseSongPlayerActivity() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(
                     arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                    PlaylistActivity.REQUEST_PERMISSION_READ_EXTERNAL_STORAGE_CODE
+                    REQUEST_PERMISSION_READ_EXTERNAL_STORAGE_CODE
                 )
             }
         }
@@ -187,15 +185,15 @@ class SongPlayerActivity : BaseSongPlayerActivity() {
         @NonNull grantResults: IntArray
     ) {
         when (requestCode) {
-            PlaylistActivity.REQUEST_PERMISSION_READ_EXTERNAL_STORAGE_CODE -> if (grantResults.isNotEmpty()) {
+            REQUEST_PERMISSION_READ_EXTERNAL_STORAGE_CODE -> if (grantResults.isNotEmpty()) {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {// Permission Granted
                     songViewModel.getSongs()
                 } else {
                     // Permission Denied
-                    Snackbar.make(
-                        playlist_recycler_view,
+                    Toast.makeText(
+                        this,
                         getString(R.string.you_denied_permission),
-                        Snackbar.LENGTH_SHORT
+                        Toast.LENGTH_SHORT
                     ).show()
                 }
             }
@@ -203,15 +201,9 @@ class SongPlayerActivity : BaseSongPlayerActivity() {
     }
 
     companion object {
-
         private val TAG = SongPlayerActivity::class.java.name
-
-        fun start(context: Context, song: Song, songList: ArrayList<Song>) {
-            val intent = Intent(context, SongPlayerActivity::class.java).apply {
-                putExtra(ASong::class.java.name, song)
-                putExtra(SONG_LIST_KEY, songList)
-            }
-            context.startActivity(intent)
-        }
+        const val REQUEST_PERMISSION_READ_EXTERNAL_STORAGE_CODE = 7031
+        const val PICK_AUDIO_KEY = 2017
+        const val AUDIO_TYPE = 3
     }
 }

@@ -10,10 +10,10 @@ class PreferencesHelper(context: Context) {
     private val prefsLatestPlayedSong = "to_restore_song_pref"
 
 
-    var latestPlayedSongPath: String?
-        get() = mPrefs.getString(
+    var latestPlayedSongId: Long
+        get() = mPrefs.getLong(
             prefsLatestPlayedSong,
-            null
+            0L
         )
-        set(value) = mPrefs.edit { putString(prefsLatestPlayedSong, value) }
+        set(value) = mPrefs.edit { putLong(prefsLatestPlayedSong, value) }
 }

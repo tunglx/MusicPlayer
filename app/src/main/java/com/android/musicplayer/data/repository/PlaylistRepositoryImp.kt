@@ -6,7 +6,7 @@ import android.provider.MediaStore
 import android.util.Log
 import com.android.musicplayer.data.model.Song
 import com.android.musicplayer.domain.repository.PlaylistRepository
-import com.android.musicplayer.presentation.playlist.PlaylistActivity
+import com.android.musicplayer.presentation.songplayer.SongPlayerActivity.Companion.AUDIO_TYPE
 
 class PlaylistRepositoryImp(private val application: Application) : PlaylistRepository {
 
@@ -89,7 +89,7 @@ class PlaylistRepositoryImp(private val application: Application) : PlaylistRepo
                             audioArtist,
                             albumArt,
                             audioDuration.toString(),
-                            PlaylistActivity.AUDIO_TYPE
+                            AUDIO_TYPE
                         )
                     )
                     cursorAlbums?.close()
@@ -99,7 +99,10 @@ class PlaylistRepositoryImp(private val application: Application) : PlaylistRepo
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        Log.i("tung", "getSongs result: $mDeviceMusicList")
+        mDeviceMusicList.sortBy { song -> song.id }
+        for (song in mDeviceMusicList) {
+            Log.i("tung", "getSongs result: $song")
+        }
         return mDeviceMusicList
     }
 }
